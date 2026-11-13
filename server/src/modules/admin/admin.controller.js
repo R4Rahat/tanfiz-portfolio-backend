@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import * as authService from "./auth.service.js";
-import { JWT_EXPIRES_IN, JWT_SECRET } from "../../config/env.js";
+import * as authService from "./admin.service.js";
+
 
 export const login = async (req, res, next) => {
   try {
@@ -23,8 +23,8 @@ export const login = async (req, res, next) => {
 
     const token = jwt.sign(
       { adminId: admin._id, email: admin.email },
-      JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE_IN },
     );
 
     res.cookie("adminToken", token, {
