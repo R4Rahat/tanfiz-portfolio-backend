@@ -13,15 +13,23 @@ const ADMIN = [
 
 const seedAdmin = async() => {
     try {
-        const exist = await Admin.findOne({email:process.env.ADMIN_EMAIL})
-        const hashedpassword =await bcrypt.hash(ADMIN[0].password,10)
-        if(!exist){
-            await Admin.create({
-                name:ADMIN[0].name,
-                email:ADMIN[0].email,
-                password:hashedpassword
-            })
+        if (!process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) {
+            console.log("Admin seed skipped: ADMIN_EMAIL or ADMIN_PASSWORD is missing")
+            return
         }
+
+        const exist = await Admin.findOne({email:process.env.ADMIN_EMAIL})
+        if (exist) {
+            console.log("Admin already exists")
+            return
+        }
+
+        const hashedpassword = await bcrypt.hash(ADMIN[0].password, 10)
+        await Admin.create({
+            name: ADMIN[0].name,
+            email: ADMIN[0].email,
+            password: hashedpassword
+        })
         console.log("Admin created")
     } catch (error) {
         console.log(error);
