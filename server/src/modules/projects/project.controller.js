@@ -1,4 +1,4 @@
-import { asyncHandler } from "../../utils/Asynchandler.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 import * as service from "./project.service.js";
 
 // ----- public -----
